@@ -27,6 +27,7 @@ syn match todoContext	/\s\zs@[^ \t(]\+\(([^)]*)\)\?/
 syn match todoTime	/\[.*\]/
 syn match todoDone	/^.*\s@done\(\(\s\|([^)]*)\).*\)\?$/
 syn match todoCancelled	/^.*\s@cancelled\(\(\s\|([^)]*)\).*\)\?$/
+syn match todoTODO	/^\t\+-.*:/
 
 syn sync fromstart
 
@@ -38,6 +39,7 @@ HiLink todoProject	Title
 HiLink todoDone		NonText
 HiLink todoCancelled	NonText
 HiLink todoComment	Comment
+HiLink todoTodo		Keyword
 
 call todo#tag_style_dict(g:task_paper_styles)
 
