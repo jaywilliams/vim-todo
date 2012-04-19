@@ -17,6 +17,7 @@ Syntax
 		- Sub item 1
 		- Sub item 2 @with_tag
 		- Sub item 3 [with time]
+		! Urgent item
 	- Morning meeting
 		- Email Joan about project @email [10am]
 		# Comment
