@@ -12,16 +12,16 @@ Or unpack into ~/.vim/bundles if using Pathogen.
 
 Syntax
 =======
-# Comment
-- Example Project
-	- Sub item 1
-	- Sub item 2 @with_tag
-	- Sub item 3 [with time]
-- Morning meeting
-	- Email Joan about project @email [10am]
 	# Comment
-	- Sub Project [1/2/2014]
-		- Sub task
+	- Example Project
+		- Sub item 1
+		- Sub item 2 @with_tag
+		- Sub item 3 [with time]
+	- Morning meeting
+		- Email Joan about project @email [10am]
+		# Comment
+		- Sub Project [1/2/2014]
+			- Sub task
 
 
 File-type Plugin
