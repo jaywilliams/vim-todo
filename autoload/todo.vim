@@ -1,8 +1,5 @@
-" plugin to handle the TaskPaper to-do list format
-" Language:     Taskpaper (http://hogbaysoftware.com/projects/taskpaper)
-" Maintainer:   David O'Callaghan <david.ocallaghan@cs.tcd.ie>
-" URL:          https://github.com/davidoc/taskpaper.vim
-" Last Change:  2012-03-07
+" plugin to handle the TODO to-do list format
+" Language:     Todo (https://github.com/hash-bang/vim-todo-plugin)
 
 let s:save_cpo = &cpo
 set cpo&vim
@@ -37,38 +34,38 @@ function! s:add_delete_tag(tag, value, add)
     return 0
 endfunction
 
-function! taskpaper#add_tag(tag, ...)
+function! todo#add_tag(tag, ...)
     let value = a:0 > 0 ? a:1 : input('Value: ')
     return s:add_delete_tag(a:tag, value, 1)
 endfunction
 
-function! taskpaper#delete_tag(tag, ...)
+function! todo#delete_tag(tag, ...)
     let value = a:0 > 0 ? a:1 : ''
     return s:add_delete_tag(a:tag, value, 0)
 endfunction
 
-function! taskpaper#swap_tag(oldtag, newtag)
-    call taskpaper#delete_tag(a:oldtag)
-    call taskpaper#add_tag(a:newtag, '')
+function! todo#swap_tag(oldtag, newtag)
+    call todo#delete_tag(a:oldtag)
+    call todo#add_tag(a:newtag, '')
 endfunction
 
-function! taskpaper#swap_tags(oldtags, newtags)
+function! todo#swap_tags(oldtags, newtags)
     for oldtag in a:oldtags
-        call taskpaper#delete_tag(oldtag)
+        call todo#delete_tag(oldtag)
     endfor
     for newtag in a:newtags
-        call taskpaper#add_tag(newtag, '')
+        call todo#add_tag(newtag, '')
     endfor
 endfunction
 
-function! taskpaper#toggle_tag(tag, ...)
-    if !taskpaper#delete_tag(a:tag, '')
+function! todo#toggle_tag(tag, ...)
+    if !todo#delete_tag(a:tag, '')
         let args = a:0 > 0 ? [a:tag, a:1] : [a:tag]
-        call call("taskpaper#add_tag", args)
+        call call("todo#add_tag", args)
     endif
 endfunction
 
-function! taskpaper#has_tag(tag)
+function! todo#has_tag(tag)
     let cur_line = getline(".")
     let m = matchstr(cur_line, '@'.a:tag)
     if m != ''
@@ -77,7 +74,7 @@ function! taskpaper#has_tag(tag)
         return 0
 endfunction
 
-function! taskpaper#cycle_tags(...)
+function! todo#cycle_tags(...)
     let tags_index = 0
     let tag_list = a:000
     let tag_added = 0
@@ -86,33 +83,33 @@ function! taskpaper#cycle_tags(...)
         if tags_index == len(tag_list)
             let tags_index = 0
         endif
-        let has_tag = taskpaper#has_tag(tag_name)
+        let has_tag = todo#has_tag(tag_name)
         if has_tag == 1
             let tag_added = 1
-            call taskpaper#delete_tag(tag_name)
+            call todo#delete_tag(tag_name)
             let new_tag = tag_list[tags_index]
             if new_tag != ''
-                call taskpaper#add_tag(new_tag, '')
+                call todo#add_tag(new_tag, '')
             endif
             break
         endif
     endfor
     if tag_added == 0
-        call taskpaper#add_tag(tag_list[0], '')
+        call todo#add_tag(tag_list[0], '')
     endif
 endfunction
 
-function! taskpaper#update_tag(tag, ...)
-    call taskpaper#delete_tag(a:tag, '')
+function! todo#update_tag(tag, ...)
+    call todo#delete_tag(a:tag, '')
     let args = a:0 > 0 ? [a:tag, a:1] : [a:tag]
-    call call("taskpaper#add_tag", args)
+    call call("todo#add_tag", args)
 endfunction
 
-function! taskpaper#date()
+function! todo#date()
     return strftime(g:task_paper_date_format, localtime())
 endfunction
 
-function! taskpaper#complete_project(lead, cmdline, pos)
+function! todo#complete_project(lead, cmdline, pos)
     let lnum = 1
     let list = []
     let stack = ['']
@@ -149,19 +146,19 @@ function! taskpaper#complete_project(lead, cmdline, pos)
     return list
 endfunction
 
-function! taskpaper#go_to_project()
-    let res = input('Project: ', '', 'customlist,taskpaper#complete_project')
+function! todo#go_to_project()
+    let res = input('Project: ', '', 'customlist,todo#complete_project')
 
     if res != ''
-        call taskpaper#search_project(split(res, ':'))
+        call todo#search_project(split(res, ':'))
     endif
 endfunction
 
-function! taskpaper#next_project()
+function! todo#next_project()
     return search('^\t*\zs.\+:\(\s\+@[^\s(]\+\(([^)]*)\)\?\)*$', 'w')
 endfunction
 
-function! taskpaper#previous_project()
+function! todo#previous_project()
     return search('^\t*\zs.\+:\(\s\+@[^\s(]\+\(([^)]*)\)\?\)*$', 'bw')
 endfunction
 
@@ -170,7 +167,7 @@ function! s:search_project(project, depth, begin, end)
     return search('\v^\t{' . a:depth . '}\V' . a:project . ':', 'c', a:end)
 endfunction
 
-function! taskpaper#search_project(projects)
+function! todo#search_project(projects)
     if empty(a:projects)
         return 0
     endif
@@ -188,7 +185,7 @@ function! taskpaper#search_project(projects)
         endif
 
         let begin = line('.')
-        let end = taskpaper#search_end_of_item(begin)
+        let end = todo#search_end_of_item(begin)
         let depth += 1
     endfor
 
@@ -198,7 +195,7 @@ function! taskpaper#search_project(projects)
     return begin
 endfunction
 
-function! taskpaper#search_end_of_item(...)
+function! todo#search_end_of_item(...)
     let lnum = a:0 > 0 ? a:1 : line('.')
     let flags = a:0 > 1 ? a:2 : ''
 
@@ -228,7 +225,7 @@ function! taskpaper#search_end_of_item(...)
     return end
 endfunction
 
-function! taskpaper#delete(...)
+function! todo#delete(...)
     let start = a:0 > 0 ? a:1 : line('.')
     let reg = a:0 > 1 ? a:2 : '"'
     let kill_indent = a:0 > 2 ? a:3 : 0
@@ -244,7 +241,7 @@ function! taskpaper#delete(...)
 
     let depth = len(matchstr(getline(start), '^\t*'))
 
-    let end = taskpaper#search_end_of_item(start)
+    let end = todo#search_end_of_item(start)
     silent execute start . ',' . end . 'delete ' . reg
 
     let &l:foldenable = save_fen
@@ -261,7 +258,7 @@ function! taskpaper#delete(...)
     return end - start + 1
 endfunction
 
-function! taskpaper#put(...)
+function! todo#put(...)
     let projects = a:0 > 0 ? a:1 : []
     let reg = a:0 > 1 ? a:2 : '"'
     let indent = a:0 > 2 ? a:3 : 0
@@ -269,7 +266,7 @@ function! taskpaper#put(...)
     let save_fen = &l:foldenable
     setlocal nofoldenable
 
-    if !empty(projects) && !taskpaper#search_project(projects)
+    if !empty(projects) && !todo#search_project(projects)
         let &l:foldenable = save_fen
         return 0
     endif
@@ -289,13 +286,13 @@ function! taskpaper#put(...)
     return line("']") - line("'[") + 1
 endfunction
 
-function! taskpaper#move(projects, ...)
+function! todo#move(projects, ...)
     let lnum = a:0 > 0 ? a:1 : line('.')
 
     let save_fen = &l:foldenable
     setlocal nofoldenable
 
-    if !taskpaper#search_project(a:projects)
+    if !todo#search_project(a:projects)
         let &l:foldenable = save_fen
         return 0
     endif
@@ -303,8 +300,8 @@ function! taskpaper#move(projects, ...)
     let reg = 'a'
     let save_reg = [getreg(reg), getregtype(reg)]
 
-    let nlines = taskpaper#delete(lnum, reg, 1)
-    call taskpaper#put(a:projects, reg, 1)
+    let nlines = todo#delete(lnum, reg, 1)
+    call todo#put(a:projects, reg, 1)
 
     let &l:foldenable = save_fen
     call setreg(reg, save_reg[0], save_reg[1])
@@ -314,12 +311,12 @@ function! taskpaper#move(projects, ...)
     return nlines
 endfunction
 
-function! taskpaper#move_to_project()
-    let res = input('Project: ', '', 'customlist,taskpaper#complete_project')
-    call taskpaper#move(split(res, ':'))
+function! todo#move_to_project()
+    let res = input('Project: ', '', 'customlist,todo#complete_project')
+    call todo#move(split(res, ':'))
 endfunction
 
-function! taskpaper#update_project()
+function! todo#update_project()
     let indent = matchstr(getline("."), '^\t*')
     let depth = len(indent)
 
@@ -345,10 +342,10 @@ function! taskpaper#update_project()
         endif
     endfor
 
-    call taskpaper#update_tag('project', join(reverse(projects), ' / '))
+    call todo#update_tag('project', join(reverse(projects), ' / '))
 endfunction
 
-function! taskpaper#archive_done()
+function! todo#archive_done()
     let archive_start = search('^' . g:task_paper_archive_project . ':', 'cw')
     if archive_start == 0
         call append('$', g:task_paper_archive_project . ':')
@@ -372,8 +369,8 @@ function! taskpaper#archive_done()
             break
         endif
 
-        call taskpaper#update_project()
-        let deleted += taskpaper#delete(lnum, 'A', 1)
+        call todo#update_project()
+        let deleted += todo#delete(lnum, 'A', 1)
     endwhile
 
     if archive_end != 0
@@ -385,13 +382,13 @@ function! taskpaper#archive_done()
                 break
             endif
 
-            call taskpaper#update_project()
-            let deleted += taskpaper#delete(lnum, 'A', 1)
+            call todo#update_project()
+            let deleted += todo#delete(lnum, 'A', 1)
         endwhile
     endif
 
     if deleted != 0
-        call taskpaper#put([g:task_paper_archive_project], 'a', 1)
+        call todo#put([g:task_paper_archive_project], 'a', 1)
     else
         echo 'No done items.'
     endif
@@ -402,13 +399,13 @@ function! taskpaper#archive_done()
     return deleted
 endfunction
 
-function! taskpaper#fold(lnum, pat, ipat)
+function! todo#fold(lnum, pat, ipat)
     let line = getline(a:lnum)
     let level = foldlevel(a:lnum)
 
     if line =~? a:pat && (a:ipat == '' || line !~? a:ipat)
         return 0
-    elseif synIDattr(synID(a:lnum, 1, 1), "name") != 'taskpaperProject'
+    elseif synIDattr(synID(a:lnum, 1, 1), "name") != 'todoProject'
         return 1
     elseif level != -1
         return level
@@ -430,61 +427,61 @@ function! taskpaper#fold(lnum, pat, ipat)
     return 1
 endfunction
 
-function! taskpaper#search(...)
+function! todo#search(...)
     let pat = a:0 > 0 ? a:1 : input('Search: ')
     let ipat = a:0 > 1 ? a:2 : ''
     if pat == ''
         return
     endif
 
-    setlocal foldexpr=taskpaper#fold(v:lnum,pat,ipat)
+    setlocal foldexpr=todo#fold(v:lnum,pat,ipat)
     setlocal foldminlines=0 foldtext=''
     setlocal foldmethod=expr foldlevel=0 foldenable
 endfunction
 
-function! taskpaper#fold_except_range(lnum, begin, end)
+function! todo#fold_except_range(lnum, begin, end)
     if a:lnum > a:end
         return 1
     elseif a:lnum >= a:begin
         return 0
-    elseif synIDattr(synID(a:lnum, 1, 1), "name") != 'taskpaperProject'
+    elseif synIDattr(synID(a:lnum, 1, 1), "name") != 'todoProject'
         return 1
     elseif level != -1
         return level
     endif
 
-    if a:end <= taskpaper#search_end_of_item(a:lnum, 'n')
+    if a:end <= todo#search_end_of_item(a:lnum, 'n')
         return 0
     endif
 
     return 1
 endfunction
 
-function! taskpaper#focus_project()
+function! todo#focus_project()
     let pos = getpos('.')
 
     normal! $
-    let begin = taskpaper#previous_project()
+    let begin = todo#previous_project()
     if begin == 0
         call setpos('.', pos)
         return
     endif
 
-    let end = taskpaper#search_end_of_item(begin, 'n')
+    let end = todo#search_end_of_item(begin, 'n')
 
     " Go to the top level project
-    while taskpaper#previous_project()
+    while todo#previous_project()
         if getline('.') =~ '^[^\t]'
             break
         endif
     endwhile
 
-    setlocal foldexpr=taskpaper#fold_except_range(v:lnum,begin,end)
+    setlocal foldexpr=todo#fold_except_range(v:lnum,begin,end)
     setlocal foldminlines=0 foldtext=''
     setlocal foldmethod=expr foldlevel=0 foldenable
 endfunction
 
-function! taskpaper#search_tag(...)
+function! todo#search_tag(...)
     if a:0 > 0
         let tag = a:1
     else
@@ -494,12 +491,12 @@ function! taskpaper#search_tag(...)
 
     if tag != ''
         let ipat = (g:task_paper_search_hide_done == 1)?'\<@done\>':''
-        call taskpaper#search('\<@' . tag . '\>', ipat)
+        call todo#search('\<@' . tag . '\>', ipat)
     endif
 endfunction
 
-function! taskpaper#_fold_projects(lnum)
-    if synIDattr(synID(a:lnum, 1, 1), "name") != 'taskpaperProject'
+function! todo#_fold_projects(lnum)
+    if synIDattr(synID(a:lnum, 1, 1), "name") != 'todoProject'
         return '='
     endif
 
@@ -508,18 +505,18 @@ function! taskpaper#_fold_projects(lnum)
     return '>' . (depth + 1)
 endfunction
 
-function! taskpaper#fold_projects()
-    setlocal foldexpr=taskpaper#_fold_projects(v:lnum)
+function! todo#fold_projects()
+    setlocal foldexpr=todo#_fold_projects(v:lnum)
     setlocal foldminlines=0 foldtext=foldtext()
     setlocal foldmethod=expr foldlevel=0 foldenable
 endfunction
 
-function! taskpaper#newline()
+function! todo#newline()
     let lnum = line('.')
     let line = getline('.')
 
     if lnum == 1 || line !~ '^\s*$' ||
-    \  synIDattr(synID(lnum - 1, 1, 1), "name") != 'taskpaperProject'
+    \  synIDattr(synID(lnum - 1, 1, 1), "name") != 'todoProject'
         return ''
     endif
 
@@ -531,14 +528,14 @@ function! taskpaper#newline()
 endfunction
 
 
-function! taskpaper#tag_style(...)
+function! todo#tag_style(...)
     if a:0 > 0
         let tag_name = a:1
     endif
 
     if a:0 > 1
         let tag_style = a:2
-        let tag_style_name = 'taskpaperAutoStyle_' . tag_name
+        let tag_style_name = 'todoAutoStyle_' . tag_name
         execute 'syn match' tag_style_name  '/\s\zs@'.tag_name.'\(([^)]*)\)\?/'
         execute 'hi' tag_style_name tag_style
         if version < 508
@@ -552,9 +549,9 @@ function! taskpaper#tag_style(...)
     endif
 endfunction
 
-function! taskpaper#tag_style_dict(tsd)
+function! todo#tag_style_dict(tsd)
     for tag_name in keys(a:tsd)
-        call taskpaper#tag_style(tag_name,a:tsd[tag_name])
+        call todo#tag_style(tag_name,a:tsd[tag_name])
     endfor
 endfunction
 

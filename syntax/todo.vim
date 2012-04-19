@@ -1,8 +1,4 @@
 " Vim syntax file
-" Language:	Taskpaper (http://hogbaysoftware.com/projects/taskpaper)
-" Maintainer:	David O'Callaghan <david.ocallaghan@cs.tcd.ie>
-" URL:		https://github.com/davidoc/taskpaper.vim
-" Last Change:  2012-03-07
 
 if version < 600
   syntax clear
@@ -23,26 +19,29 @@ endif
 
 syn case ignore
 
-syn match taskpaperComment	/^.*$/ contains=taskpaperContext
-syn match taskpaperProject	/^.\+:\(\s\+@[^ \t(]\+\(([^)]*)\)\?\)*$/ contains=taskpaperContext
-syn match taskpaperListItem	/^\t*-\s\+/
-syn match taskpaperContext	/\s\zs@[^ \t(]\+\(([^)]*)\)\?/
-syn match taskpaperDone		/^.*\s@done\(\(\s\|([^)]*)\).*\)\?$/
-syn match taskpaperCancelled	/^.*\s@cancelled\(\(\s\|([^)]*)\).*\)\?$/
+syn match todoComment	/^\t*#.*$/ contains=todoContext
+syn match todoProject	/^-\s\+\(\s\+@[^ \t(]\+\(([^)]*)\)\?\)$/ contains=todoContext
+syn match todoProject	/^-\s\+.*$/
+syn match todoListItem	/^\t\+-/
+syn match todoContext	/\s\zs@[^ \t(]\+\(([^)]*)\)\?/
+syn match todoTime	/\[.*\]/
+syn match todoDone	/^.*\s@done\(\(\s\|([^)]*)\).*\)\?$/
+syn match todoCancelled	/^.*\s@cancelled\(\(\s\|([^)]*)\).*\)\?$/
 
 syn sync fromstart
 
-"highlighting for Taskpaper groups
-HiLink taskpaperListItem      Identifier
-HiLink taskpaperContext       Identifier
-HiLink taskpaperProject       Title
-HiLink taskpaperDone          NonText
-HiLink taskpaperCancelled     NonText
-HiLink taskpaperComment       Comment
+"highlighting for todo groups
+HiLink todoListItem	Identifier
+HiLink todoContext	Identifier
+HiLink todoTime		Constant
+HiLink todoProject	Title
+HiLink todoDone		NonText
+HiLink todoCancelled	NonText
+HiLink todoComment	Comment
 
-call taskpaper#tag_style_dict(g:task_paper_styles)
+call todo#tag_style_dict(g:task_paper_styles)
 
-let b:current_syntax = "taskpaper"
+let b:current_syntax = "todo"
 
 delcommand HiLink
 " vim: ts=8
