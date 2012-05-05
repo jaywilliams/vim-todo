@@ -49,7 +49,4 @@ call todo#tag_style_dict(g:task_paper_styles)
 let b:current_syntax = "todo"
 
 delcommand HiLink
-
-" Other options
-se ts=3
 " vim: ts=8
