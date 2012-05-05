@@ -23,6 +23,9 @@ Syntax
 		# Comment
 		- Sub Project [1/2/2014]
 			- Sub task
+	Another project (this time without a -)
+		- Sub item 1
+		- Sub item 2
 
 
 File-type Plugin

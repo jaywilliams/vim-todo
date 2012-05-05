@@ -22,6 +22,7 @@ syn case ignore
 syn match todoComment	/^\t*#.*$/ contains=todoContext
 syn match todoProject	/^-\s\+\(\s\+@[^ \t(]\+\(([^)]*)\)\?\)$/ contains=todoContext
 syn match todoProject	/^-\s\+.*$/
+syn match todoProject	/^\+.*$/
 syn match todoItem	/^\t\+-/
 syn match todoItemUrg	/^\t\+!.*$/
 syn match todoContext	/\s\zs@[^ \t(]\+\(([^)]*)\)\?/
@@ -48,4 +49,7 @@ call todo#tag_style_dict(g:task_paper_styles)
 let b:current_syntax = "todo"
 
 delcommand HiLink
+
+" Other options
+se ts=3
 " vim: ts=8
