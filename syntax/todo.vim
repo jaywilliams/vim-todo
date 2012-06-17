@@ -26,6 +26,8 @@ syn match todoProject	/^\+.*$/
 syn match todoItem	/^\t\+-/
 syn match todoItemUrg	/^\t\+!.*$/
 syn match todoContext	/\s\zs@[^ \t(]\+\(([^)]*)\)\?/
+syn match todoContextH	/\s\zsH@[^ \t(]\+\(([^)]*)\)\?/
+syn match todoContextS	/\s\zsS@[^ \t(]\+\(([^)]*)\)\?/
 syn match todoTime	/\[.*\]/
 syn match todoDone	/^.*\s@done\(\(\s\|([^)]*)\).*\)\?$/
 syn match todoCancelled	/^.*\s@cancelled\(\(\s\|([^)]*)\).*\)\?$/
@@ -36,8 +38,10 @@ syn sync fromstart
 "highlighting for todo groups
 HiLink todoItem		Identifier
 HiLink todoItemUrg	Debug
-HiLink todoContext	Identifier
-HiLink todoTime		Constant
+HiLink todoContext	Special
+HiLink todoContextS	Special
+HiLink todoContextH	SpecialChar
+HiLink todoTime		Delimiter
 HiLink todoProject	Title
 HiLink todoDone		NonText
 HiLink todoCancelled	NonText
