@@ -24,6 +24,7 @@ syn match todoProject	/^-\s\+\(\s\+@[^ \t(]\+\(([^)]*)\)\?\)$/ contains=todoCont
 syn match todoProject	/^-\s\+.*$/
 syn match todoProject	/^\+.*$/
 syn match todoItem	/^\t\+-/
+syn match todoItem	/^\t\+\*/
 syn match todoItemUrg	/^\t\+!.*$/
 syn match todoContext	/\s\zs@[^ \t(]\+\(([^)]*)\)\?/
 syn match todoContextH	/\s\zsH@[^ \t(]\+\(([^)]*)\)\?/
