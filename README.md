@@ -76,33 +76,33 @@ The plugin supports a number of configuration variables, which can be set in
 your .vimrc file.
 
 To change the default date format string used when marking a task complete,
-define the `task_paper_date_format` variable. The format matches your system's
+define the `todo_date_format` variable. The format matches your system's
 `strftime()` function.
 
 For example, to include the date and time in ISO8601 format:
 
-    let g:task_paper_date_format = "%Y-%m-%dT%H:%M:%S%z"
+    let g:todo_date_format = "%Y-%m-%dT%H:%M:%S%z"
 
 To change the default archive project name, define the
-`task_paper_archive_project` variable.  The default value is "Archive".
+`todo_archive_project` variable.  The default value is "Archive".
 
-    let g:task_paper_archive_project = "Archive"
+    let g:todo_archive_project = "Archive"
 
 By default, when you move a task, the cursor will follow that task to its new
 location.  To make the cursor stay in it's current location, change the
-`task_paper_follow_move` variable.
+`todo_follow_move` variable.
 
-    let g:task_paper_follow_move = 0
+    let g:todo_follow_move = 0
 
 If you want to hide done tasks when searching you can change the
-`task_paper_search_hide_done` variable.
+`todo_search_hide_done` variable.
 
-    let g:task_paper_search_hide_done = 1
+    let g:todo_search_hide_done = 1
 
-To set a custom style (colour, bold, etc.) for tags task_paper_styles variable,
+To set a custom style (colour, bold, etc.) for tags todo_styles variable,
 which is a dictionary.
 
-    let g:task_paper_styles={'wait': 'ctermfg=Blue guifg=Blue', 'FAIL':
+    let g:todo_styles={'wait': 'ctermfg=Blue guifg=Blue', 'FAIL':
 'ctermbg=Red guibg=Red'}
 
 See |highlight-args| for a full description of the syntax.
@@ -117,58 +117,58 @@ Customize
 ==========
 You can create your own shortcut for tagging.  To define your own shortcut, write settings in ~/.vim/ftplugin/taskpaper.vim or ~/.vimrc.  If you use the .vimrc file, define settings like:
 
-    function! s:taskpaper_setup()
+    function! s:todo_setup()
     " Your settings
     nnoremap <buffer> <silent> <Leader>tn
-    \    :<C-u>call taskpaper#toggle_tag('next', '')<CR>
+    \    :<C-u>call todo#toggle_tag('next', '')<CR>
     endfunction
 
-    augroup vimrc-taskpaper
+    augroup vimrc-todo
     autocmd!
-    autocmd FileType taskpaper call s:taskpaper_setup()
+    autocmd FileType todo call s:todo_setup()
     augroup END
 
 To add a tag without argument:
 
     nnoremap <buffer> <silent> <Leader>tn
-    \    :<C-u>call taskpaper#add_tag('next', '')<CR>
+    \    :<C-u>call todo#add_tag('next', '')<CR>
 
 To delete a tag:
 
     nnoremap <buffer> <silent> <Leader>tN
-    \    :<C-u>call taskpaper#delete_tag('next', '')<CR>
+    \    :<C-u>call todo#delete_tag('next', '')<CR>
 
 To toggle a tag:
 
     nnoremap <buffer> <silent> <Leader>tn
-    \    :<C-u>call taskpaper#toggle_tag('next', '')<CR>
+    \    :<C-u>call todo#toggle_tag('next', '')<CR>
 
 To add a tag with an argument:
 
     nnoremap <buffer> <silent> <Leader>tq
-    \    :<C-u>call taskpaper#add_tag('priority')<CR>
+    \    :<C-u>call todo#add_tag('priority')<CR>
 
 You can specify the priority value on prompt.
 
 To delete the priority tag with any argument:
 
     nnoremap <buffer> <silent> <Leader>tQ
-    \    :<C-u>call taskpaper#delete_tag('priority', '')<CR>
+    \    :<C-u>call todo#delete_tag('priority', '')<CR>
 
 To delete only the level 1 of priority tag:
 
     nnoremap <buffer> <silent> <Leader>tQ
-    \    :<C-u>call taskpaper#delete_tag('priority', '1')<CR>
+    \    :<C-u>call todo#delete_tag('priority', '1')<CR>
 
 To toggle a tag with an argument:
 
     nnoremap <buffer> <silent> <Leader>tq
-    \    :<C-u>call taskpaper#toggle_tag('priority')<CR>
+    \    :<C-u>call todo#toggle_tag('priority')<CR>
 
 To update a tag (not delete if the tag exists):
 
     nnoremap <buffer> <silent> <Leader>tq
-    \    :<C-u>call taskpaper#update_tag('priority')<CR>
+    \    :<C-u>call todo#update_tag('priority')<CR>
 
 
 Licence
@@ -219,7 +219,7 @@ or patches to improve TaskPaper.vim:
  * Julien Blanchard (https://github.com/julienXX)
    - added ToggleCancelled
  * Robert James Kaes (https://github.com/rjkaes)
-   - added task_paper_date_format
+   - added todo_date_format
  * Adriano Castro (https://github.com/adrianocastro)
    - use tabs not spaces (noexpandtab)
  * Morgan Sutherland (https://github.com/msutherl)

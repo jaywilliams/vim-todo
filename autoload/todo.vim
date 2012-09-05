@@ -106,7 +106,7 @@ function! todo#update_tag(tag, ...)
 endfunction
 
 function! todo#date()
-    return strftime(g:task_paper_date_format, localtime())
+    return strftime(g:todo_date_format, localtime())
 endfunction
 
 function! todo#complete_project(lead, cmdline, pos)
@@ -305,7 +305,7 @@ function! todo#move(projects, ...)
 
     let &l:foldenable = save_fen
     call setreg(reg, save_reg[0], save_reg[1])
-        if g:task_paper_follow_move == 0
+        if g:todo_follow_move == 0
             execute lnum
         endif
     return nlines
@@ -346,9 +346,9 @@ function! todo#update_project()
 endfunction
 
 function! todo#archive_done()
-    let archive_start = search('^' . g:task_paper_archive_project . ':', 'cw')
+    let archive_start = search('^' . g:todo_archive_project . ':', 'cw')
     if archive_start == 0
-        call append('$', g:task_paper_archive_project . ':')
+        call append('$', g:todo_archive_project . ':')
         let archive_start = line('$')
         let archive_end = 0
     else
@@ -388,7 +388,7 @@ function! todo#archive_done()
     endif
 
     if deleted != 0
-        call todo#put([g:task_paper_archive_project], 'a', 1)
+        call todo#put([g:todo_archive_project], 'a', 1)
     else
         echo 'No done items.'
     endif
@@ -490,7 +490,7 @@ function! todo#search_tag(...)
     endif
 
     if tag != ''
-        let ipat = (g:task_paper_search_hide_done == 1)?'\<@done\>':''
+        let ipat = (g:todo_search_hide_done == 1)?'\<@done\>':''
         call todo#search('\<@' . tag . '\>', ipat)
     endif
 endfunction

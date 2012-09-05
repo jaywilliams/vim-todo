@@ -13,8 +13,8 @@ else
 endif
 
 " Define tag styles
-if !exists('g:task_paper_styles')
-    let g:task_paper_styles = {'FAIL': 'guibg=Red guifg=White'}
+if !exists('g:todo_styles')
+    let g:todo_styles = {'FAIL': 'guibg=Red guifg=White'}
 endif
 
 syn case ignore
@@ -49,7 +49,7 @@ HiLink todoCancelled	NonText
 HiLink todoComment	Comment
 HiLink todoTodo		Keyword
 
-call todo#tag_style_dict(g:task_paper_styles)
+call todo#tag_style_dict(g:todo_styles)
 
 let b:current_syntax = "todo"
 
