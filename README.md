@@ -75,6 +75,13 @@ Configuration
 The plugin supports a number of configuration variables, which can be set in
 your .vimrc file.
 
+To enable proper commenting when using NERD Commenter, add the following:
+
+    " Define TODO Comment Style
+    let g:NERDCustomDelimiters = {
+        \ 'todo': { 'left': '#' }
+    \ }
+
 To change the default date format string used when marking a task complete,
 define the `todo_date_format` variable. The format matches your system's
 `strftime()` function.
@@ -102,8 +109,7 @@ If you want to hide done tasks when searching you can change the
 To set a custom style (colour, bold, etc.) for tags todo_styles variable,
 which is a dictionary.
 
-    let g:todo_styles={'wait': 'ctermfg=Blue guifg=Blue', 'FAIL':
-'ctermbg=Red guibg=Red'}
+    let g:todo_styles={'wait': 'ctermfg=Blue guifg=Blue', 'FAIL': 'ctermbg=Red guibg=Red'}
 
 See |highlight-args| for a full description of the syntax.
 
