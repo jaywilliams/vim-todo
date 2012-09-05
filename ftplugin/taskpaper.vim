@@ -49,43 +49,43 @@ setlocal autoindent
 " Set up mappings
 if !exists("no_plugin_maps") && !exists("no_taskpaper_maps")
     nnoremap <silent> <buffer> <Plug>TaskPaperFoldProjects
-    \       :<C-u>call taskpaper#fold_projects()<CR>
+    \       :<C-u>call todo#fold_projects()<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperFoldNotes
-    \       :<C-u>call taskpaper#search('\v^(\s*\|\t+-\s+.*\|.+:)$')<CR>
+    \       :<C-u>call todo#search('\v^(\s*\|\t+-\s+.*\|.+:)$')<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperFocusProject
-    \       :<C-u>call taskpaper#focus_project()<CR>
+    \       :<C-u>call todo#focus_project()<CR>
 
     nnoremap <silent> <buffer> <Plug>TaskPaperSearchKeyword
-    \       :<C-u>call taskpaper#search()<CR>
+    \       :<C-u>call todo#search()<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperSearchTag
-    \       :<C-u>call taskpaper#search_tag()<CR>
+    \       :<C-u>call todo#search_tag()<CR>
 
     nnoremap <silent> <buffer> <Plug>TaskPaperGoToProject
-    \       :<C-u>call taskpaper#go_to_project()<CR>
+    \       :<C-u>call todo#go_to_project()<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperNextProject
-    \       :<C-u>call taskpaper#next_project()<CR>
+    \       :<C-u>call todo#next_project()<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperPreviousProject
-    \       :<C-u>call taskpaper#previous_project()<CR>
+    \       :<C-u>call todo#previous_project()<CR>
 
     nnoremap <silent> <buffer> <Plug>TaskPaperArchiveDone
-    \       :<C-u>call taskpaper#archive_done()<CR>
+    \       :<C-u>call todo#archive_done()<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperShowToday
-    \       :<C-u>call taskpaper#search_tag('today')<CR>
+    \       :<C-u>call todo#search_tag('today')<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperShowCancelled
-    \       :<C-u>call taskpaper#search_tag('cancelled')<CR>
+    \       :<C-u>call todo#search_tag('cancelled')<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperToggleCancelled
-    \       :call taskpaper#toggle_tag('cancelled', taskpaper#date())<CR>
+    \       :call todo#toggle_tag('cancelled', todo#date())<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperToggleDone
-    \       :call taskpaper#toggle_tag('done', taskpaper#date())<CR>
+    \       :call todo#toggle_tag('done', todo#date())<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperToggleToday
-    \       :call taskpaper#toggle_tag('today', '')<CR>
+    \       :call todo#toggle_tag('today', '')<CR>
     nnoremap <silent> <buffer> <Plug>TaskPaperMoveToProject
-    \       :call taskpaper#move_to_project()<CR>
+    \       :call todo#move_to_project()<CR>
 
     nnoremap <silent> <buffer> <Plug>TaskPaperNewline
-    \       o<C-r>=taskpaper#newline()<CR>
+    \       o<C-r>=todo#newline()<CR>
     inoremap <silent> <buffer> <Plug>TaskPaperNewline
-    \       <CR><C-r>=taskpaper#newline()<CR>
+    \       <CR><C-r>=todo#newline()<CR>
 
     nmap <buffer> <Leader>tp <Plug>TaskPaperFoldProjects
     nmap <buffer> <Leader>t. <Plug>TaskPaperFoldNotes
