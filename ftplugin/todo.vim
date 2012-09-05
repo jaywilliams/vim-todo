@@ -37,7 +37,10 @@ endif
 setlocal iskeyword+=@-@
 
 " Tab character has special meaning on TaskPaper
-" setlocal noexpandtab
+setlocal noexpandtab
+
+" Enable Folding
+setlocal foldenable
 
 " Change 'comments' and 'formatoptions' to continue to write a task item
 setlocal comments=b:-
